@@ -62,8 +62,26 @@ class ValueIterationAgent(ValueEstimationAgent):
     def runValueIteration(self):
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
-        
+        print(self.mdp.getStates())
+        # for i in range(0,100):
 
+        maxVal = 0
+        for state in self.mdp.getStates():
+            qStates = {}
+            for a in self.mdp.getPossibleActions(state):
+                newVal = 0
+                for (newState, prob) in self.mdp.getTransitionAndProbs(state, a):
+                    reward = self.mdp.getReward(state, a, newState)
+                    newVal += prob * (reward + (self.discount * self.getValue(state)))
+                    
+                    # new_value += probability * (reward + (self.mdp.get_discount_factor() * self.values.get_value(new_state)))
+                qStates.update(state, a, newVal)
+            max = 0
+            for q in qStates:
+                if q[2] > max:
+                    max = q[2]
+            return max
+            
 
     def getValue(self, state):
         """
@@ -78,7 +96,13 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
+        newVal = 0
+
+        for (newState, prob) in self.mdp.getTransitionAndProbs(state, action):
+            reward = self.mdp.getReward(state, action, newState)
+            newVal = prob * (reward + (self.discount * self.getValue(state)))
         util.raiseNotDefined()
+        
 
     def computeActionFromValues(self, state):
         """
