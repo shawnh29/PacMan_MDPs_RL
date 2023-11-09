@@ -51,6 +51,7 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
+        
         util.raiseNotDefined()
 
 
@@ -62,6 +63,7 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
+        
         util.raiseNotDefined()
 
     def computeActionFromQValues(self, state):

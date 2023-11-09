@@ -63,20 +63,19 @@ class ValueIterationAgent(ValueEstimationAgent):
         # Write value iteration code here
         # shouldn't return anything, just run value iteration 100 times and update the self.values each time
         "*** YOUR CODE HERE ***"
-        for i in range(0, self.iterations):
+        for i in range(0, self.iterations): # run value iteration x amount of times
             current = util.Counter()
-            for state in self.mdp.getStates():
-                if self.mdp.isTerminal(state):
+            for state in self.mdp.getStates(): # for each state in the grid world
+                if self.mdp.isTerminal(state): # first check if it's the terminal state, if it is, then skip
                     continue
                 maxVal = -9999
-                for a in self.mdp.getPossibleActions(state):
+                for a in self.mdp.getPossibleActions(state): # for every action you can take in a given state
                     newVal = 0
-                    for (newState, prob) in self.mdp.getTransitionStatesAndProbs(state, a):
-                        reward = self.mdp.getReward(state, a, newState)
-                        newVal += prob * (reward + (self.discount * self.getValue(newState)))
-                    maxVal = max(maxVal, newVal)
-                current[state] = maxVal
-                # self.values[state] = maxVal
+                    for (newState, prob) in self.mdp.getTransitionStatesAndProbs(state, a): # for every new state and its probability it gets to that state
+                        reward = self.mdp.getReward(state, a, newState)                     # determine the reward you would get for getting to that new state
+                        newVal += prob * (reward + (self.discount * self.getValue(newState))) # determine how much utility you can obtain 
+                    maxVal = max(maxVal, newVal)                                            # determining the highest utility you can obtain from a given action
+                current[state] = maxVal                                                     # storing the highest utility you can obtain 
             self.values = current
             
     def getValue(self, state):
@@ -84,7 +83,6 @@ class ValueIterationAgent(ValueEstimationAgent):
           Return the value of the state (computed in __init__).
         """
         return self.values[state]
-
 
     def computeQValueFromValues(self, state, action):
         """
@@ -99,7 +97,6 @@ class ValueIterationAgent(ValueEstimationAgent):
         return newVal
         util.raiseNotDefined()
         
-
     def computeActionFromValues(self, state):
         """
           The policy is the best action in the given state
